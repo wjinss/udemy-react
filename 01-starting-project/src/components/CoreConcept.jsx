@@ -1,3 +1,4 @@
+import "./CoreConcept.css";
 export default function ConreConept({ image, title, description }) {
   return (
     <li>
