@@ -5,6 +5,9 @@ import ConreConept from "./components/CoreConcept/CoreConcept.jsx";
 import TabButton from "./components/TabButton/TabButton.jsx";
 
 function App() {
+  function handleSelect() {
+    console.log("안녕! 세상아! - 선택됨!");
+  }
   return (
     <div>
       <Header />
@@ -22,11 +25,12 @@ function App() {
           <h2>Examples</h2>
           <menu>
             {/* <TabButton label={"레이블"} /> */}
-            <TabButton>컴포넌트</TabButton>
-            <TabButton>JSX</TabButton>
-            <TabButton>Props</TabButton>
-            <TabButton>상태</TabButton>
+            <TabButton onSelect={handleSelect}>컴포넌트</TabButton>
+            <TabButton onSelect={handleSelect}>JSX</TabButton>
+            <TabButton onSelect={handleSelect}>Props</TabButton>
+            <TabButton onSelect={handleSelect}>상태</TabButton>
           </menu>
+          동적 콘텐츠
         </section>
       </main>
     </div>

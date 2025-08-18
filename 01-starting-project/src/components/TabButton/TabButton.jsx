@@ -1,10 +1,7 @@
-export default function TabButton({ children, label }) {
-  function handleClick() {
-    console.log("안녕! 세상아!");
-  }
+export default function TabButton({ children, label, onSelect }) {
   return (
     <li>
-      <button onClick={handleClick}>{children}</button>
+      <button onClick={onSelect}>{children}</button>
       {/* <button>{label}</button> */}
     </li>
   );
