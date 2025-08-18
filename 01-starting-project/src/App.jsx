@@ -1,7 +1,8 @@
 import componentImage from "./assets/components.png";
 import { CORE_CONCEPTS } from "./data.js";
 import Header from "./components/Header/Header.jsx";
-import ConreConept from "./components/CoreConcept.jsx";
+import ConreConept from "./components/CoreConcept/CoreConcept.jsx";
+import TabButton from "./components/TabButton/TabButton.jsx";
 
 function App() {
   return (
@@ -16,6 +17,16 @@ function App() {
             <ConreConept {...CORE_CONCEPTS[2]} />
             <ConreConept {...CORE_CONCEPTS[3]} />
           </ul>
+        </section>
+        <section id="examples">
+          <h2>Examples</h2>
+          <menu>
+            {/* <TabButton label={"레이블"} /> */}
+            <TabButton>컴포넌트</TabButton>
+            <TabButton>JSX</TabButton>
+            <TabButton>Props</TabButton>
+            <TabButton>상태</TabButton>
+          </menu>
         </section>
       </main>
     </div>
