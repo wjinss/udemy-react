@@ -5,10 +5,16 @@ import ConreConept from "./components/CoreConcept/CoreConcept.jsx";
 import TabButton from "./components/TabButton/TabButton.jsx";
 
 function App() {
+  let tabContent = "버튼을 클릭해주세요";
+
   function handleSelect(selectedButton) {
-    // selectedButton => '컴포넌트'. "jsx", "props", "state"
-    console.log(`안녕! 세상아! - ${selectedButton}!`);
+    console.log(selectedButton);
+
+    tabContent = selectedButton;
   }
+
+  console.log("앱 컴포넌트 렌더링");
+
   return (
     <div>
       <Header />
@@ -35,7 +41,7 @@ function App() {
             <TabButton onSelect={() => handleSelect("프롭스")}>Props</TabButton>
             <TabButton onSelect={() => handleSelect("상태")}>상태</TabButton>
           </menu>
-          동적 콘텐츠
+          {tabContent}
         </section>
       </main>
     </div>
