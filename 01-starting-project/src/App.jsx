@@ -34,10 +34,9 @@ function App() {
         <section id="core-concepts">
           <h2>Core Comcepts</h2>
           <ul>
-            <ConreConept {...CORE_CONCEPTS[0]} />
-            <ConreConept {...CORE_CONCEPTS[1]} />
-            <ConreConept {...CORE_CONCEPTS[2]} />
-            <ConreConept {...CORE_CONCEPTS[3]} />
+            {CORE_CONCEPTS.map((item, idx) => (
+              <ConreConept {...item} key={item.title} />
+            ))}
           </ul>
         </section>
         <section id="examples">
