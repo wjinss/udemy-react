@@ -1,5 +1,5 @@
-import { CORE_CONCEPTS } from "../../data";
-import CoreConept from "../CoreConcept/CoreConcept";
+import { CORE_CONCEPTS } from "../data";
+import CoreConept from "./CoreConcept";
 
 export default function CoreConcepts() {
   return (
