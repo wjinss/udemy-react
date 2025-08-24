@@ -1,5 +1,5 @@
 import "./CoreConcept.css";
-export default function ConreConept({ image, title, description }) {
+export default function CoreConept({ image, title, description }) {
   return (
     <li>
       <img src={image} alt={title} />
