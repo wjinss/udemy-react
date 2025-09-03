@@ -2,6 +2,7 @@ import { useState } from "react";
 import Player from "./components/Player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
+import GameOver from "./components/GameOver.jsx";
 import { WINNING_COMBINATIONS } from "./winning-combinations.js";
 
 function deriveActiveplayer(gameTurns) {
@@ -21,13 +22,17 @@ const initialGameBoard = [
 ];
 
 function App() {
+  const [players, setPlayers] = useState({
+    "✅": "Player 1",
+    "❌": "Player 2",
+  });
   const [gameTurns, setGameTurns] = useState([]);
   // const [hasWinner, setHasWinner] = useState(false);
   // const [activePlayer, setActivePlayer] = useState("✅");
 
   const activePlayer = deriveActiveplayer(gameTurns);
 
-  let gameBoard = initialGameBoard;
+  let gameBoard = [...initialGameBoard.map((array) => [...array])];
 
   for (const turn of gameTurns) {
     const { square, player } = turn;
@@ -54,7 +59,7 @@ function App() {
       winner = firstSquarSymbol;
     }
   }
-
+  const hasDraw = gameTurns.length === 9 && !winner;
   const handleSelectSquare = (rowIndex, colIndex) => {
     // setActivePlayer((currentActivePlayer) =>
     //   currentActivePlayer === "✅" ? "❌" : "✅"
@@ -71,6 +76,19 @@ function App() {
     });
   };
 
+  function handleRestart() {
+    setGameTurns([]);
+  }
+
+  function handelPlayerNameChange(symbol, newName) {
+    setPlayers((prevPlayers) => {
+      return {
+        ...prevPlayers,
+        [symbol]: newName,
+      };
+    });
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -86,7 +104,9 @@ function App() {
             isActive={activePlayer === "❌"}
           />
         </ol>
-        {winner && <p>당신이 이겼습니다, {winner}!</p>}
+        {(winner || hasDraw) && (
+          <GameOver winner={winner} handleRestart={handleRestart} />
+        )}
         <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
