@@ -4,7 +4,7 @@ import UserInput from "./components/UserInput";
 import Results from "./components/Results";
 
 function App() {
-  // 초기 투자액, 연간 투자량, 예상 수익, 투자 기간 상태 객체로 관리(초기값 설정)
+  // 초기 투자금, 연간 투자량, 예상 수익, 투자 기간 상태 객체로 관리(초기값 설정)
   const [userInput, setUserInput] = useState({
     initialInvestment: 10000,
     annualInvestment: 1200,
