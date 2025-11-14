@@ -12,6 +12,8 @@ function App() {
     duration: 10,
   });
 
+  const inputIsValid = userInput.duration >= 1;
+
   // 새로운 값이 들어가면 이전 값이 복사되고, 매개변수로 받은 식별자에 새로운 값을 할당
   function handleChange(inputIdentifier, newValue) {
     setUserInput((prevUserInput) => {
@@ -23,7 +25,11 @@ function App() {
     <>
       <Header />
       <UserInput onChange={handleChange} userInput={userInput} />
-      <Results input={userInput} />
+      {inputIsValid ? (
+        <Results input={userInput} />
+      ) : (
+        <p className="center">0보다 큰 기간을 입력해주세요!</p>
+      )}
     </>
   );
 }
