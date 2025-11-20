@@ -13,6 +13,7 @@ export default function Player() {
   function handelClick() {
     setEnteredPlaterName(playerName.current.value);
     // useRef로 받는 참조는 항상 js객체이며, current로 접근해야된다.
+    playerName.current.value = "";
   }
 
   return (
@@ -41,6 +42,8 @@ export default function Player() {
   function handleClick2() {
     setEnteredPlayerName2(playerName2.current.value);
     // 클릭하면 사용자 이름을 인풋의 현재 값으로 변경하는 함수
+    playerName2.current.value = "";
+    // 버튼 클릭시(함수 실행시) 인풋의 값 비우기 > 리액트의 선언적 환경과 달리 명령형이라 주의요망
   }
 
   return (
@@ -58,3 +61,9 @@ export default function Player() {
     </section>
   );
 });
+
+// ---------------------------------------------
+
+// 참조와 상태의 차이
+// 상태: 변경될때마다 리렌더링 / ui에 바로 반영돼야하는 값들이 있을 때 사용(ui에 직접적인 영향 없는 값에는 사용x)
+// 참조: 변경돼도 리렌더링x / dom에 직접적인 접근해야될 때, 인풋의 값 등 시스템 내부에서 사용되는 값들을 사용할 때 사용
