@@ -1,6 +1,17 @@
-import { forwardRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 
 export default function ResultModal({ ref, result, targetTime }) {
+  const dialog = useRef();
+  useImperativeHandle(ref, () => {
+    return {
+      open() {
+        dialog.current.showModal();
+      },
+    };
+  });
+  // 컴포넌트 외부에서 접근할 수 있는 프로퍼티와 메서드를 정의할 수 있음
+  // 첫 번째 인수로 ref객체, 두 번째 인수로 함수를 받는다.
+  // 인수로 받는 함수는 컴포넌트롤 통해 접근할 수 있는 다른 컴포넌트에 노출돼야 하는 모든 프로퍼티와 메서드를 그룹화하는 객체를 반환
   return (
     <dialog ref={ref} className="result-modal">
       <h2>결과 : {result}</h2>
@@ -27,7 +38,7 @@ export default function ResultModal({ ref, result, targetTime }) {
     // forwardRef로 컴포넌트를 래핑하면 기존 프롭스 이외에 특수한 프롭스인 ref를 추가로 받아야한다
   ) {
     return (
-      <dialog ref={ref} className="result-modal">
+      <dialog ref={dialog} className="result-modal">
         <h2>결과 : {result}</h2>
         <p>
           시간 : <strong>{targetTime}초</strong>
