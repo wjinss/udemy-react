@@ -3,12 +3,14 @@ import ResultModal from "./ResultModal.jsx";
 
 export default function TimerChallenge({ title, targetTime }) {
   const timer = useRef();
+  const dialog = useRef();
   const [timerStarted, setTimerStarted] = useState(false);
   const [timerExpired, setTimerExpired] = useState(false);
 
   function handleStart() {
     timer.current = setTimeout(() => {
       setTimerExpired(true);
+      dialog.current.showModal();
     }, targetTime * 1000);
 
     setTimerStarted(true);
@@ -19,7 +21,8 @@ export default function TimerChallenge({ title, targetTime }) {
   }
   return (
     <>
-      {timerExpired && <ResultModal targetTime={targetTime} result="lost" />}
+      <ResultModal ref={dialog} targetTime={targetTime} result="lost" />
+      {/* ref 자체를 props으로 전달할 수 있는건 리액트19부터라 가능! 그전엔 forwardRef를 사용했어야 됨 */}
       <section className="challenge">
         <h2>{title}</h2>
         <p className="challenge-time">
