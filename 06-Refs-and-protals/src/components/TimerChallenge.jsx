@@ -11,8 +11,11 @@ export default function TimerChallenge({ title, targetTime }) {
 
   if (timeRemaining <= 0) {
     clearInterval(timer.current);
-    setTimeRemaining(targetTime * 1000);
     dialog.current.open();
+  }
+
+  function handleReset() {
+    setTimeRemaining(targetTime * 1000);
   }
 
   function handleStart() {
@@ -28,7 +31,12 @@ export default function TimerChallenge({ title, targetTime }) {
   }
   return (
     <>
-      <ResultModal ref={dialog} targetTime={targetTime} result="lost" />
+      <ResultModal
+        ref={dialog}
+        targetTime={targetTime}
+        remainingTime={timeRemaining}
+        onReset={handleReset}
+      />
       {/* ref 자체를 props으로 전달할 수 있는건 리액트19부터라 가능! 그전엔 forwardRef를 사용했어야 됨 */}
       <section className="challenge">
         <h2>{title}</h2>

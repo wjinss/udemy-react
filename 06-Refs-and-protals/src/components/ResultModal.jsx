@@ -1,7 +1,15 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 
-export default function ResultModal({ ref, result, targetTime }) {
+export default function ResultModal({
+  ref,
+  targetTime,
+  remainingTime,
+  onReset,
+}) {
   const dialog = useRef();
+
+  const userLost = remainingTime <= 0;
+  const formattedRemainingTime = (remainingTime / 1000).toFixed(2);
   useImperativeHandle(ref, () => {
     return {
       open() {
@@ -14,14 +22,14 @@ export default function ResultModal({ ref, result, targetTime }) {
   // 인수로 받는 함수는 컴포넌트롤 통해 접근할 수 있는 다른 컴포넌트에 노출돼야 하는 모든 프로퍼티와 메서드를 그룹화하는 객체를 반환
   return (
     <dialog ref={dialog} className="result-modal">
-      <h2>결과 : {result}</h2>
+      {userLost && <h2>졌습니다!</h2>}
       <p>
         시간 : <strong>{targetTime}초</strong>
       </p>
       <p>
-        <strong>x 초</strong>를 남기고 멈췄어요!
+        <strong>{formattedRemainingTime}</strong>를 남기고 멈췄어요!
       </p>
-      <form method="dialog">
+      <form method="dialog" onSubmit={onReset}>
         <button>닫기</button>
       </form>
     </dialog>
