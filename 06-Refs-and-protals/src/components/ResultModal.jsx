@@ -13,7 +13,7 @@ export default function ResultModal({ ref, result, targetTime }) {
   // 첫 번째 인수로 ref객체, 두 번째 인수로 함수를 받는다.
   // 인수로 받는 함수는 컴포넌트롤 통해 접근할 수 있는 다른 컴포넌트에 노출돼야 하는 모든 프로퍼티와 메서드를 그룹화하는 객체를 반환
   return (
-    <dialog ref={ref} className="result-modal">
+    <dialog ref={dialog} className="result-modal">
       <h2>결과 : {result}</h2>
       <p>
         시간 : <strong>{targetTime}초</strong>
