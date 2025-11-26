@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
 export default function ResultModal({
   ref,
@@ -22,7 +23,7 @@ export default function ResultModal({
   // 컴포넌트 외부에서 접근할 수 있는 프로퍼티와 메서드를 정의할 수 있음
   // 첫 번째 인수로 ref객체, 두 번째 인수로 함수를 받는다.
   // 인수로 받는 함수는 컴포넌트롤 통해 접근할 수 있는 다른 컴포넌트에 노출돼야 하는 모든 프로퍼티와 메서드를 그룹화하는 객체를 반환
-  return (
+  return createPortal(
     <dialog ref={dialog} className="result-modal" onClose={onReset}>
       {userLost && <h2>졌습니다!</h2>}
       {!userLost && <h2>당신의 점수는 {score}</h2>}
@@ -35,7 +36,8 @@ export default function ResultModal({
       <form method="dialog" onSubmit={onReset}>
         <button>닫기</button>
       </form>
-    </dialog>
+    </dialog>,
+    document.getElementById("modal")
   );
 }
 
