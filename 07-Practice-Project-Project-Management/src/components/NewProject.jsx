@@ -51,3 +51,50 @@ export default function NewProject({ onAdd }) {
     </div>
   );
 }
+
+// ------------------------------------------------------------------------------
+
+() => {
+  function NewProject({ onAdd }) {
+    const title = useRef();
+    const description = useRef();
+    const dueDate = useRef();
+
+    function handleSave() {
+      const enteredTitle = title.current.value;
+      const enteredDescription = description.current.value;
+      const enteredDueDate = dueDate.current.value;
+
+      onAdd({
+        title: enteredTitle,
+        description: enteredDescription,
+        dueDate: enteredDueDate,
+      });
+    }
+
+    return (
+      <div className="w-[35rem] mt-16">
+        <menu className="flex items-center justify-end gap-4 my-4">
+          <li>
+            <button className="px-6 py-2 rounded-md text-stone-800 hover:text-stone-950">
+              취소
+            </button>
+          </li>
+          <li>
+            <button
+              className="px-6 py-2 rounded-md text-stone-800 hover:text-stone-950"
+              onClick={handleSave}
+            >
+              저장
+            </button>
+          </li>
+        </menu>
+        <div>
+          <ProjectInput type="text" label="Title" ref={title} />
+          <ProjectInput label="Description" isTextarea ref={description} />
+          <ProjectInput type="date" label="Due Date" ref={dueDate} />
+        </div>
+      </div>
+    );
+  }
+};
