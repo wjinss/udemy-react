@@ -72,3 +72,54 @@ function App() {
 }
 
 export default App;
+
+// ------------------------------------------------------------------------------
+
+() => {
+  function App() {
+    const [projectsState2, setProjectState2] = useState({
+      selectedProjectId: undefined,
+      project: [],
+    });
+
+    function handleStartAddProject2() {
+      setProjectState2((prevState) => {
+        return {
+          ...prevState,
+          selectedProjectId: null,
+        };
+      });
+    }
+
+    function handleAddProject2(projectData2) {
+      setProjectState2((prevState) => {
+        const newProject = {
+          ...projectData2,
+          id: Math.random(),
+        };
+
+        return {
+          ...prevState,
+          project: [...prevState.project, newProject],
+        };
+      });
+    }
+
+    let conntent2;
+
+    if (projectsState2.selectedProjectId === null) {
+      conntent2 = <NewProject onAdd={handleAddProject2} />;
+    } else if (projectsState2.selectedProjectId === undefined) {
+      conntent2 = (
+        <NoProjectSelected onStartAddProject={handleStartAddProject2} />
+      );
+    }
+
+    return (
+      <main>
+        <Sidebar onStartAddProject={handleStartAddProject2} />
+        {conntent2}
+      </main>
+    );
+  }
+};
