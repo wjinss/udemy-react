@@ -15,7 +15,8 @@ export default function NoProjectSelected({ onStartAddProject }) {
       <p className="text-stone-400 mb-4">
         프로젝트를 선택하거나 새로 만들어보세요!
       </p>
-      <p className="mt-8 ">
+      <p className="mt-8">
+        {/* 구조분해로 받아온 onStartAddProject을 연결 */}
         <ProjectButton onClick={onStartAddProject}>
           새 프로젝트 생성
         </ProjectButton>

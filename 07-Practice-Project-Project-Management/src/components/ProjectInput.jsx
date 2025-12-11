@@ -1,3 +1,4 @@
+// ref를 props로 받아서 2번째 프로퍼티로 ref를 받게 설정
 export default function ProjectInput({ label, isTextarea, ...props }, ref) {
   const classes =
     "w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-stone-600";

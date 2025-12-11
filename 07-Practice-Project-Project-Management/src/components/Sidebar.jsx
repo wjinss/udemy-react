@@ -7,6 +7,7 @@ export default function Sidebar({ onStartAddProject }) {
         내 프로젝트
       </h2>
       <div>
+        {/* 구조분해로 받아온 onStartAddProject을 연결 */}
         <ProjectButton onClick={onStartAddProject}>
           + 프로젝트 추가
         </ProjectButton>
