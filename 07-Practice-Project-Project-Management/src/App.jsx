@@ -29,24 +29,25 @@ function App() {
   function handleAddProject(projectData) {
     // 프로젝트의 이전 상태를 기반으로 업데이트
     setProjectState((prevState) => {
+      // Math.random()으로 각 프로젝트마다의 id값 부여
+      const projectID = Math.random();
       // 새 프로젝트 추가를 위한 객체
       const newProject = {
         // 받은 매개변수(프로젝트 데이터)를 복사
         ...projectData,
-        // Math.random()으로 각 프로젝트마다의 id값 부여
-        id: Math.random(),
+        id: projectID,
       };
 
       return {
         // 기존 데이터를 새로 반환된 객체에 복사
         ...prevState,
+        // 저장버튼 클릭 시 화면에 폴백 img를 보여주기 위함
+        selectedProjectId: undefined,
         // 기존 프로젝트를 유지하면서 프로젝트 업데이트하며 새 프로젝트 객체를 추가
         projects: [...prevState.projects, newProject],
       };
     });
   }
-
-  console.log(projectsState);
 
   // 조건부 렌더링을 위한 변수 설정
   let content;
@@ -64,7 +65,10 @@ function App() {
   return (
     <main className="h-screen my-8 flex gap-8">
       {/* handleStartAddProject함수와 연결 */}
-      <Sidebar onStartAddProject={handleStartAddProject} />
+      <Sidebar
+        onStartAddProject={handleStartAddProject}
+        projects={projectsState.projects}
+      />
       {/* 프로젝트 조건부 렌더링 */}
       {content}
     </main>
