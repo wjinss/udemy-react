@@ -8,9 +8,28 @@ function App() {
   const [projectsState, setProjectState] = useState({
     selectedProjectId: undefined,
     projects: [],
+    tasks: [],
   });
   // selectedProject이 undefined이면 프로젝트가 없다이고, null일 경우 프로젝트를 추가한다는 뜻
   // projects는 나중에 유저가 생성한 프로젝트들을 추가하기 위함
+
+  function handleAddTask(text) {
+    setProjectState((prevState) => {
+      const taskId = Math.random();
+      const newTask = {
+        text: text,
+        projectId: prevState.selectedProjectId,
+        id: taskId,
+      };
+
+      return {
+        ...prevState,
+        tasks: [...prevState.tasks, newTask],
+      };
+    });
+  }
+
+  function handleDeleteTask() {}
 
   // 새로운 프로젝트를 만들 때 사용하는 함수
   function handleStartAddProject() {
@@ -57,12 +76,12 @@ function App() {
     // 프로젝트의 이전 상태를 기반으로 업데이트
     setProjectState((prevState) => {
       // Math.random()으로 각 프로젝트마다의 id값 부여
-      const projectID = Math.random();
+      const projectId = Math.random();
       // 새 프로젝트 추가를 위한 객체
       const newProject = {
         // 받은 매개변수(프로젝트 데이터)를 복사
         ...projectData,
-        id: projectID,
+        id: projectId,
       };
 
       return {
@@ -96,7 +115,13 @@ function App() {
 
   // 조건부 렌더링을 위한 변수 설정
   let content = (
-    <SelectedProject project={selectedProject} onDelete={handleDeleteProject} />
+    <SelectedProject
+      project={selectedProject}
+      onDelete={handleDeleteProject}
+      onAddTask={handleAddTask}
+      onDeleteTask={handleDeleteTask}
+      tasks={projectsState.tasks}
+    />
   );
 
   // selectedProjectId가 null일때, 즉 새 프로젝트를 추가할때
