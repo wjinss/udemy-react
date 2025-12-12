@@ -2,6 +2,7 @@ import { useState } from "react";
 import NewProject from "./components/NewProject";
 import NoProjectSelected from "./components/NoProjectSelected";
 import Sidebar from "./components/Sidebar";
+import SelectedProject from "./components/SelectedProject";
 
 function App() {
   const [projectsState, setProjectState] = useState({
@@ -24,11 +25,28 @@ function App() {
     });
   }
 
+  // 취소 버튼을 눌러 프로잭트를 만들기를 취소할 때 사용하는 함수
   function handelCancelAddProject() {
+    // 프로젝트의 이전 상태를 기반으로 업데이트
     setProjectState((prevState) => {
       return {
+        // 이전 상태의 객체의 값을 다 가져옴(복사)
         ...prevState,
+        // undefined 값으로 변경해 프로젝트를 없앤다고 명시
         selectedProjectId: undefined,
+      };
+    });
+  }
+
+  // 사이드바에서 프로젝트를 선택할때 사용되는 함수
+  function handleSelectedProject(id) {
+    // 프로젝트의 이전 상태를 기반으로 업데이트
+    setProjectState((prevState) => {
+      return {
+        // 이전 상태의 객체의 값을 다 가져옴(복사)
+        ...prevState,
+        // 프로젝트를 선택해야 되기 때문에 값을 id로 설정
+        selectedProjectId: id,
       };
     });
   }
@@ -58,8 +76,12 @@ function App() {
     });
   }
 
+  const selectedProject = projectsState.projects.find(
+    (project) => project.id === projectsState.selectedProjectId
+  );
+
   // 조건부 렌더링을 위한 변수 설정
-  let content;
+  let content = <SelectedProject project={selectedProject} />;
 
   // selectedProjectId가 null일때, 즉 새 프로젝트를 추가할때
   if (projectsState.selectedProjectId === null) {
@@ -79,6 +101,7 @@ function App() {
       <Sidebar
         onStartAddProject={handleStartAddProject}
         projects={projectsState.projects}
+        onSeletProject={handleSelectedProject}
       />
       {/* 프로젝트 조건부 렌더링 */}
       {content}
