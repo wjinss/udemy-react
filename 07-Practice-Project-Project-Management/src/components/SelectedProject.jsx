@@ -7,6 +7,7 @@ export default function SelectedProject({
   onDeleteTask,
   tasks,
 }) {
+  // 입력된 날짜값을 설정하는 변수
   const formattedDate = new Date(project.dueDate).toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "short",

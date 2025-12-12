@@ -3,10 +3,12 @@ import { useState } from "react";
 export default function NewTask({ onAdd }) {
   const [enteredTask, setEnteredTask] = useState("");
 
+  // 입력값을 상태로 관리
   function handlechange(e) {
     setEnteredTask(e.target.value);
   }
 
+  // 클릭 시 빈 문자열이면 종료하고, 아닐 때 입력값에 맞는 할 일 목록 생성 및 폼을 초기화
   function handleClick() {
     if (enteredTask.trim() === "") {
       return;

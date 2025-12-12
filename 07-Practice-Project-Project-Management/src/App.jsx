@@ -12,31 +12,7 @@ function App() {
   });
   // selectedProject이 undefined이면 프로젝트가 없다이고, null일 경우 프로젝트를 추가한다는 뜻
   // projects는 나중에 유저가 생성한 프로젝트들을 추가하기 위함
-
-  function handleAddTask(text) {
-    setProjectState((prevState) => {
-      const taskId = Math.random();
-      const newTask = {
-        text: text,
-        projectId: prevState.selectedProjectId,
-        id: taskId,
-      };
-
-      return {
-        ...prevState,
-        tasks: [...prevState.tasks, newTask],
-      };
-    });
-  }
-
-  function handleDeleteTask(id) {
-    setProjectState((prevState) => {
-      return {
-        ...prevState,
-        tasks: prevState.tasks.filter((task) => task.id !== id),
-      };
-    });
-  }
+  // tasks는 프로젝트 내부의 할 일 목록을 추가하기 위함
 
   // 새로운 프로젝트를 만들 때 사용하는 함수
   function handleStartAddProject() {
@@ -116,6 +92,35 @@ function App() {
     });
   }
 
+  // 프로젝트 내부의 할 일을 추가하는 함수(프로젝트를 추가하는 함수와 유사)
+  function handleAddTask(text) {
+    setProjectState((prevState) => {
+      const taskId = Math.random();
+      const newTask = {
+        text: text,
+        projectId: prevState.selectedProjectId,
+        id: taskId,
+      };
+
+      return {
+        ...prevState,
+        tasks: [...prevState.tasks, newTask],
+      };
+    });
+  }
+
+  // 프로젝트 내부의 할 일을 삭제하는 함수(할 일을 직접 선택하기 때문에 id를 매개변수로 받음)
+  // 그 외는 프로젝트를 삭제하는 함수와 비슷
+  function handleDeleteTask(id) {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => task.id !== id),
+      };
+    });
+  }
+
+  // 내가 특정 id의 할 일을 선택 중이고, 그 할 일을 삭제하려고 하면은 현재 배열을 순회중인 project.id가 내가 선택한 id(prevState.selectedProjectId) 아니면 배열에 남기고, 맞으면 배열에서 없애서 (!==) 선택되지 않은 배열만 새로 반환한다~ 는 개념
   const selectedProject = projectsState.projects.find(
     (project) => project.id === projectsState.selectedProjectId
   );
