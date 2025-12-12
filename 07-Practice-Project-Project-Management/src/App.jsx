@@ -29,7 +29,14 @@ function App() {
     });
   }
 
-  function handleDeleteTask() {}
+  function handleDeleteTask(id) {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => task.id !== id),
+      };
+    });
+  }
 
   // 새로운 프로젝트를 만들 때 사용하는 함수
   function handleStartAddProject() {
@@ -143,6 +150,7 @@ function App() {
         onStartAddProject={handleStartAddProject}
         projects={projectsState.projects}
         onSeletProject={handleSelectedProject}
+        selectedProjectId={projectsState.selectedProjectId}
       />
       {/* 프로젝트 조건부 렌더링 */}
       {content}
