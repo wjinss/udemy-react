@@ -2,7 +2,7 @@ import { useRef } from "react";
 import ProjectInput from "./ProjectInput";
 import Modal from "./Modal";
 
-export default function NewProject({ onAdd }) {
+export default function NewProject({ onAdd, onCancel }) {
   const modal = useRef();
 
   // 각 html요소를 연결할 ref
@@ -40,14 +40,19 @@ export default function NewProject({ onAdd }) {
   return (
     <>
       <Modal ref={modal} buttonCaption="닫기">
-        <h2>잘못된 입력</h2>
-        <p>값을 입력하지 않은 것 같습니다</p>
-        <p>모든 입력칸에 유효한 값을 입력해주세요!</p>
+        <h2 className="text-xl font-bold text-stone-700 my-4">잘못된 입력</h2>
+        <p className="text-stone-600 mb-4">값을 입력하지 않은 것 같습니다</p>
+        <p className="text-stone-600 mb-4">
+          모든 입력칸에 유효한 값을 입력해주세요!
+        </p>
       </Modal>
       <div className="w-[35rem] mt-16">
         <menu className="flex items-center justify-end gap-4 my-4">
           <li>
-            <button className="px-6 py-2 rounded-md text-stone-800 hover:text-stone-950">
+            <button
+              className="px-6 py-2 rounded-md text-stone-800 hover:text-stone-950"
+              onClick={onCancel}
+            >
               취소
             </button>
           </li>

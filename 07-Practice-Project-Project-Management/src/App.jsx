@@ -24,6 +24,15 @@ function App() {
     });
   }
 
+  function handelCancelAddProject() {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+      };
+    });
+  }
+
   // 새 프로젝트 추가하는 함수
   // 함수가 호출되는 위치에서 프로젝트의 데이터를 매개변수로 받아옴 > NewProject컴포넌트의 onAdd함수에 전달되는 ref객체
   function handleAddProject(projectData) {
@@ -55,7 +64,9 @@ function App() {
   // selectedProjectId가 null일때, 즉 새 프로젝트를 추가할때
   if (projectsState.selectedProjectId === null) {
     // handleAddProject는 NewProject컴포넌트에서 호출 받아야되기 때문에 onAdd로 연결
-    content = <NewProject onAdd={handleAddProject} />;
+    content = (
+      <NewProject onAdd={handleAddProject} onCancel={handelCancelAddProject} />
+    );
   }
   // // selectedProjectId가 undefined일때, 즉 프로젝트가 없을 때
   else if (projectsState.selectedProjectId === undefined) {
