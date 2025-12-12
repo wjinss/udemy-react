@@ -76,12 +76,28 @@ function App() {
     });
   }
 
+  // 프로젝트를 삭제하는 함수
+  function handleDeleteProject() {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+        projects: prevState.projects.filter(
+          (project) => project.id !== prevState.selectedProjectId
+        ),
+        // 특정 id의 프로젝트를 선택 중이고, 그 프로젝트를 삭제하려고 하면은 현재 배열을 순회중인 project.id가 내가 선택한 id(prevState.selectedProjectId) 아니면 배열에 남기고, 맞으면 배열에서 없애서 (!==) 선택되지 않은 배열만 새로 반환
+      };
+    });
+  }
+
   const selectedProject = projectsState.projects.find(
     (project) => project.id === projectsState.selectedProjectId
   );
 
   // 조건부 렌더링을 위한 변수 설정
-  let content = <SelectedProject project={selectedProject} />;
+  let content = (
+    <SelectedProject project={selectedProject} onDelete={handleDeleteProject} />
+  );
 
   // selectedProjectId가 null일때, 즉 새 프로젝트를 추가할때
   if (projectsState.selectedProjectId === null) {
