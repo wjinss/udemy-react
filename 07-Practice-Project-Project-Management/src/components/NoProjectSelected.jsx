@@ -37,7 +37,7 @@ export default function NoProjectSelected({ onStartAddProject }) {
           className="w-16 h-16 object-contain mx-auto"
         />
         <h2 className="text-xl font-bold text-stone-500 my-4">
-          프로젝트가 선택되지 않았어요
+          프로젝트가 선택되지 않았어요!
         </h2>
         <p className="text-stone-400 mb-4">
           프로젝트를 선택하거나 새로 만들어보세요!
