@@ -169,48 +169,149 @@ export default App;
 
 () => {
   function App() {
-    const [projectsState2, setProjectState2] = useState({
+    const [projectState, setProjectState] = useState({
       selectedProjectId: undefined,
-      project: [],
+      projects: [],
+      tasks: [],
+    });
+    // 프로젝트 상태를 객체로 저장, selectedProjectId는 프로젝트의 생성 유무를 나타내며, 프로젝트 배열에 프로젝트를 담으며, 태스크 배열엔 할 일 목록을 담는다
+
+    // 프로젝트를 생성하는 함수, 즉 프로젝트 데이터의 틀을 잡는다고 보면 됨
+    function handleStartProject() {
+      setProjectState((prevState) => {
+        return {
+          ...prevState, // 객체의 이전 상태를 복사(값을 유지하기 위함)
+          selectedProjectId: null, // null로 변경은 프로젝트를 추가한다는 의미
+        };
+      });
+    }
+
+    // 프로젝트를 삭제하는 함수 (프로젝트 id의 값을 undefined에서 null로 변경)
+    function handleCancelAddProject() {
+      setProjectState((prevState) => {
+        return {
+          ...prevState,
+          selectedProjectId: undefined,
+        };
+      });
+    }
+
+    // 사이드바에서 프로젝트를 선택할 때 사용하는 함수(해당 프로젝트로 이동하기 위함(클릭 시))
+    // 함수에 매개변수를 넣는 이유는 선택한 프로젝트만 해당되는 함수이기에, 클릭 시 발동하는 함수의 실행을 위해 선택된 프로젝트의 id를 매개변수로 전달
+    function handleSelectedProject(id) {
+      setProjectState((prevState) => {
+        return {
+          ...prevState,
+          // 전달받은 매개변수의 값으로 프로젝트 id 변경
+          selectedProjectId: id,
+        };
+      });
+    }
+
+    // 새 프로젝트를 추가하는 함수
+    // 함수가 추가되는 위치에서 프로젝트의 데이터를 매개변수로 받아온다. > 컴포넌트의 입력값에 전달되는 데이터를 받아옴(ref데이터)
+    function handleAddProject() {
+      setProjectState((prevState) => {
+        const projectId = Math.random(); // id값을 랜덤으로 생성
+        const newProject = {
+          ...prevState,
+          id: projectId,
+        };
+        // 생성하는 프로젝트의 데이터 객체를 받아옴(매개변수로 받는 입력값을 복사 후 id 할당)
+        return {
+          ...prevState,
+          selectedProjectId: undefined,
+          projects: [...prevState.projects, newProject],
+          // 프로젝트 객체에 입력값으로 받은 프로젝트 데이터 객체를 추가 및 selectedProjectId에 undefined을 부여해 프로젝트 생성이 끝났다라고 표시
+        };
+      });
+    }
+
+    function handleDeleteProject() {
+      setProjectState((prevState) => {
+        return {
+          ...prevState,
+          selectedProjectId: undefined, // 삭제할거니깐 id 값도 변경시켜줌
+          projects: prevState.projects.filter(
+            (project) => project.id !== prevState.selectedProjectId
+          ), // 프로젝트 배열에서 내가 선택한 프로젝트의 id가 현재 배열에서 순회 중인 프로젝트가 아니면, 배열에 남긴다(프로젝트 배열에 남기는 것은 삭제하지 않는다는 것)
+          // 즉, 내가 선택한 id가 배열을 순회중인 프로젝트의 id와 일치하면 배열에서 없앤다!(삭제한다)
+        };
+      });
+    }
+
+    // 특정 프로젝트 내부에서 할 일들을 추가하는 함수(프로젝트를 추가하는 함수와 유사)
+    function handleAddTask(text) {
+      //매개변수로 받은 text는 할 일들의 입력값
+      setProjectState((prevState) => {
+        const taskId = Math.random();
+        const newTask = {
+          text: text, // 매개변수로 받은 입력값을 새 할일 객체의 text항목의 값으로 지정
+          projectId: prevState.selectedProjectId, // id는 "특정" 프로젝트 내부에 있는 할 일이니 프로젝트의 id를 가져옴
+          id: taskId, // 할 일들의 id값 부여
+        };
+        return {
+          ...prevState,
+          // 프로젝트 객체의 항목들을 복사해서 가져옴
+          tasks: [...prevState.tasks, newTask],
+          // 프로젝트 객체의 할일 항목은 기존 항목 유지 + 새로 추가된 값으로 최신화
+        };
+      });
+    }
+
+    // 특정 프로젝트 내부에서 할 일들을 삭제하는 함수(프로젝트를 삭제하는 함수와 유사)
+    function handleDeleteTask(id) {
+      // 매개변수로 받은 id는 선택한 할 일 항목의 id
+      setProjectState((prevState) => {
+        return {
+          ...prevState,
+          tasks: prevState.tasks.filter((task) => task.id !== id),
+          // 선택한 할 일 항목의 id와 프로젝트의 task배열의 특정 id가 같으면 배열에서 삭제(!==)
+        };
+      });
+    }
+
+    // 특정 프로젝트 찾기
+    const selectedProject = projectState.projects.find((project) => {
+      project.id === projectState.selectedProjectId;
     });
 
-    function handleStartAddProject2() {
-      setProjectState2((prevState) => {
-        return {
-          ...prevState,
-          selectedProjectId: null,
-        };
-      });
-    }
+    // 조건부 렌더링을 위한 변수 설정 및 props로 값 넘기기
+    let content = (
+      <SelectedProject
+        project={selectedProject}
+        onDelete={handleDeleteProject}
+        onAddTask={handleAddTask}
+        onDeleteTask={handleDeleteTask}
+        tasks={projectState.tasks}
+      />
+    );
 
-    function handleAddProject2(projectData2) {
-      setProjectState2((prevState) => {
-        const newProject = {
-          ...projectData2,
-          id: Math.random(),
-        };
-
-        return {
-          ...prevState,
-          project: [...prevState.project, newProject],
-        };
-      });
-    }
-
-    let conntent2;
-
-    if (projectsState2.selectedProjectId === null) {
-      conntent2 = <NewProject onAdd={handleAddProject2} />;
-    } else if (projectsState2.selectedProjectId === undefined) {
-      conntent2 = (
-        <NoProjectSelected onStartAddProject={handleStartAddProject2} />
+    // 새 프로젝트를 추가할때 (selectedProjectId가 null)
+    if (projectState.selectedProjectId === null) {
+      content = (
+        <NewProject
+          onAdd={handleAddProject}
+          onCancel={handleCancelAddProject}
+          // 프로젝트를 추가 및 삭제할 수 있는 함수를 전달
+        />
       );
+    }
+    // 새 프로젝트가 없을때 (selectedProjectId가 undefined)
+    else if (projectState.selectedProjectId === undefined) {
+      content = <NoProjectSelected onStartAddProject={handleStartProject} />;
+      // 폴백 컴포넌트를 넣으며, 프로젝트를 생성할 수 있는 함수를 전달
     }
 
     return (
-      <main>
-        <Sidebar onStartAddProject={handleStartAddProject2} />
-        {conntent2}
+      <main className="h-screen my-8 flex gap-8">
+        <Sidebar
+          onStartAddProject={handleStartProject}
+          projects={projectState.projects}
+          onSeletProject={handleSelectedProject}
+          selectedProjectId={projectState.selectedProjectId}
+        />
+        {content}
       </main>
     );
   }
