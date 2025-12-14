@@ -78,7 +78,8 @@ export default function NewProject({ onAdd, onCancel }) {
 // ------------------------------------------------------------------------------
 
 () => {
-  function NewProject2({ onAdd }) {
+  function NewProject({ onAdd, onCancel }) {
+    const modal = useRef();
     const title = useRef();
     const description = useRef();
     const dueDate = useRef();
@@ -88,36 +89,60 @@ export default function NewProject({ onAdd, onCancel }) {
       const enteredDescription = description.current.value;
       const enteredDueDate = dueDate.current.value;
 
+      // 참조된 html요소의 입력값이 비어있을 경우
+      if (
+        enteredTitle.trim() === "" ||
+        enteredDescription.trim() === "" ||
+        enteredDueDate.trim() === ""
+      ) {
+        modal.current.open();
+        // 에러 모달 오픈
+        return;
+        // 함수 종료(실행되지 않게)
+      }
+
+      // 저장 버튼을 누르면 해당 함수가 실행되는데, onAdd함수에 입력값을 전달하고 전달된 값은 handleAddProject로 전달돼 프로젝트 객체를 생성하게 됨
       onAdd({
         title: enteredTitle,
         description: enteredDescription,
         dueDate: enteredDueDate,
       });
     }
-
     return (
-      <div className="w-[35rem] mt-16">
-        <menu className="flex items-center justify-end gap-4 my-4">
-          <li>
-            <button className="px-6 py-2 rounded-md text-stone-800 hover:text-stone-950">
-              취소
-            </button>
-          </li>
-          <li>
-            <button
-              className="px-6 py-2 rounded-md text-stone-800 hover:text-stone-950"
-              onClick={handleSave}
-            >
-              저장
-            </button>
-          </li>
-        </menu>
-        <div>
-          <ProjectInput type="text" label="Title" ref={title} />
-          <ProjectInput label="Description" isTextarea ref={description} />
-          <ProjectInput type="date" label="Due Date" ref={dueDate} />
+      <>
+        <Modal ref={modal} buttonCaption="닫기">
+          <h2 className="text-xl font-bold text-stone-700 my-4">잘못된 입력</h2>
+          <p className="text-stone-600 mb-4">값을 입력하지 않았습니다.</p>
+          <p className="text-stone-600 mb-4">
+            모든 입력칸에 유효한 값을 입력해주세요!
+          </p>
+        </Modal>
+        <div className="w-[35rem] mt-16">
+          <menu className="flex items-center justify-end gap-4 my-4">
+            <li>
+              <button
+                className="px-6 py-2 rounded-md text-stone-800 hover:text-stone-950"
+                onClick={onCancel}
+              >
+                취소
+              </button>
+            </li>
+            <li>
+              <button
+                className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:text-stone-200"
+                onClick={handleSave}
+              >
+                저장
+              </button>
+            </li>
+          </menu>
+          <div>
+            <ProjectInput type="text" label="Title" ref={title} />
+            <ProjectInput label="Description" isTextarea ref={description} />
+            <ProjectInput type="date" label="Due Date" ref={dueDate} />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 };

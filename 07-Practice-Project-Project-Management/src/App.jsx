@@ -210,11 +210,11 @@ export default App;
 
     // 새 프로젝트를 추가하는 함수
     // 함수가 추가되는 위치에서 프로젝트의 데이터를 매개변수로 받아온다. > 컴포넌트의 입력값에 전달되는 데이터를 받아옴(ref데이터)
-    function handleAddProject() {
+    function handleAddProject(projectData) {
       setProjectState((prevState) => {
         const projectId = Math.random(); // id값을 랜덤으로 생성
         const newProject = {
-          ...prevState,
+          ...projectData,
           id: projectId,
         };
         // 생성하는 프로젝트의 데이터 객체를 받아옴(매개변수로 받는 입력값을 복사 후 id 할당)
