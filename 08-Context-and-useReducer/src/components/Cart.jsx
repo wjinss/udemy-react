@@ -48,3 +48,9 @@ export default function Cart({ onUpdateItemQuantity }) {
     </div>
   );
 }
+
+{
+  /* Consumer함수는 컴포넌트 사이에 함수를 받는데, 처리할 컨텍스트값을 매개변수로 전달한다. */
+  /* 그 후 컴포넌트가 출력할 jsx코드를 반환 */
+  /* 이전 방식이며 권장되지 않는다. useContext를 권장 */
+}
