@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useReducer } from "react";
 import { DUMMY_PRODUCTS } from "../dummy-products.js";
 
 export const CartContext = createContext({
@@ -11,7 +11,17 @@ export const CartContext = createContext({
 // 해당 컴포넌트에 유효한 Provider가 없으면 그 컴포넌트는 Context를 처음 만들 때 지정했던 기본값을 사용한다.
 // 또한 기본값을 설정하면 자동완성이 되기에 DX가 더 좋다
 
+function shoppingCartReducer(state, action) {
+  return state;
+}
+// 리듀서 함수를 함수 밖에 만드는 이유는 dispatch함수가 실행될 때마다 리듀서 함수가 재생성되지 않도록 하기 위함
+
 export default function CartContextProvider({ children }) {
+  const [shoppingCartState, shoppingCartDispatch] = useReducer(
+    shoppingCartReducer,
+    { items: [] }
+  );
+
   const [shoppingCart, setShoppingCart] = useState({
     items: [], // 값을 배열로 설정할 수 있지만 지금처럼 명시된 값으로 사용하는 것이 더 동적으로 사용할 수 있다
   });
@@ -73,7 +83,7 @@ export default function CartContextProvider({ children }) {
   }
 
   const ctxValue = {
-    items: shoppingCart.items,
+    items: shoppingCartState.items,
     addItemToCart: handleAddItemToCart,
     updateCartItemQuantity: handleUpdateCartItemQuantity,
   };
