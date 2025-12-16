@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { CartContext } from "../store/shopping-cart-context";
 import { use } from "react";
 
-export default function Cart({ onUpdateItemQuantity }) {
+export default function Cart() {
   // const cartCtx = useContext(CartContext); //useContext를 사용하려면 불러온 콘텍스트 객체를 인수로 전달한다
-  const { items } = useContext(CartContext);
+  const { items, updateCartItemQuantity } = useContext(CartContext);
   // if (true) {
   //   const cartCtx = use(CartContext); // use함수도 useContext와 동일하게 사용할 수 있다. 차이점은 use는 함수 블록 내부에서도 사용 가능
   // }
@@ -29,11 +29,11 @@ export default function Cart({ onUpdateItemQuantity }) {
                   <span> ({formattedPrice})</span>
                 </div>
                 <div className="cart-item-actions">
-                  <button onClick={() => onUpdateItemQuantity(item.id, -1)}>
+                  <button onClick={() => updateCartItemQuantity(item.id, -1)}>
                     -
                   </button>
                   <span>{item.quantity}</span>
-                  <button onClick={() => onUpdateItemQuantity(item.id, 1)}>
+                  <button onClick={() => updateCartItemQuantity(item.id, 1)}>
                     +
                   </button>
                 </div>
